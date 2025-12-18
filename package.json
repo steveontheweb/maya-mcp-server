@@ -1,0 +1,57 @@
+{
+  "name": "maya-mcp-server",
+  "version": "1.0.0",
+  "description": "Maya integration through the Model Context Protocol - Node.js wrapper for Python MCP server",
+  "main": "bin/maya-mcp.js",
+  "bin": {
+    "maya-mcp": "./bin/maya-mcp.js"
+  },
+  "scripts": {
+    "start": "node bin/maya-mcp.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "echo \"Preparing package for publishing...\""
+  },
+  "keywords": [
+    "maya-mcp",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "3d",
+    "claude",
+    "autodesk",
+    "automation",
+    "python",
+    "wrapper"
+  ],
+  "author": "Maya MCP Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jeffreytsai1004/maya-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jeffreytsai1004/maya-mcp-server/issues"
+  },
+  "homepage": "https://github.com/Jeffreytsai1004/maya-mcp-server#readme",
+  "files": [
+    "bin/",
+    "src/",
+    "plug-ins/",
+    "examples/",
+    "README.md",
+    "README_CN.md",
+    "LICENSE",
+    "requirements.txt",
+    "pyproject.toml"
+  ],
+  "preferGlobal": true,
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ]
+}

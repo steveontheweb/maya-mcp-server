@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "python",
+      "args": [
+        "-m",
+        "maya_mcp.server"
+      ],
+      "env": {
+        "PYTHONPATH": "d:/Dev/Gitea/ArtGroup/maya-mcp-server/src",
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      }
+    }
+  }
+}

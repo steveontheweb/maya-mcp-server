@@ -1,0 +1,28 @@
+# Maya MCP Server Requirements
+# Python dependencies for the Maya Model Context Protocol server
+
+# Core MCP SDK with CLI support
+# Provides the FastMCP framework and command-line interface
+mcp[cli]>=1.3.0
+
+# Standard library modules used (no installation needed):
+# - socket: Network communication with Maya client
+# - json: JSON serialization/deserialization
+# - asyncio: Asynchronous operations
+# - logging: Application logging
+# - tempfile: Temporary file handling
+# - dataclasses: Data structure definitions
+# - contextlib: Context managers
+# - typing: Type hints
+# - os: Operating system interface
+# - pathlib: Path handling
+# - base64: Base64 encoding/decoding
+# - sys: System-specific parameters
+
+# Development dependencies (optional)
+# Uncomment if needed for development:
+# pytest>=7.0.0          # Testing framework
+# pytest-asyncio>=0.21.0 # Async test support
+# black>=23.0.0          # Code formatting
+# pylint>=2.17.0         # Code linting
+# mypy>=1.0.0            # Static type checking

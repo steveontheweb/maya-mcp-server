@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package=d:/Dev/Gitea/ArtGroup/maya-mcp-server",
+        "maya-mcp"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      }
+    }
+  }
+}
