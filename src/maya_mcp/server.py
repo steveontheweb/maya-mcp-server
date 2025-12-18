@@ -681,6 +681,49 @@ def get_scene_summary(ctx: Context) -> str:
     except Exception as e:
         logger.error(f"Error getting scene summary: {str(e)}")
         return f"Error getting scene summary: {str(e)}"
+@mcp.tool()
+def get_console_output(
+    ctx: Context,
+    lines: int = 100,
+    clear: bool = False,
+    filter: str = None
+) -> str:
+    """
+    Get Maya console/script editor output.
+    
+    Parameters:
+    - lines: Number of lines to return (default: 100, 0 for all)
+    - clear: Whether to clear the console buffer after reading (default: False)
+    - filter: Optional text filter to search in output
+    
+    Returns console output with timestamps.
+    """
+    try:
+        maya = get_maya_connection()
+        params = {
+            "lines": lines,
+            "clear": clear
+        }
+        if filter:
+            params["filter"] = filter
+            
+        result = maya.send_command("get_console_output", params)
+        
+        output_lines = result.get("lines", [])
+        total_lines = result.get("total_lines", 0)
+        returned_lines = result.get("returned_lines", 0)
+        
+        if not output_lines:
+            return "Console is empty"
+        
+        output_text = "\n".join(output_lines)
+        summary = f"Showing {returned_lines} of {total_lines} total lines:\n\n{output_text}"
+        
+        return summary
+    except Exception as e:
+        logger.error(f"Error getting console output: {str(e)}")
+        return f"Error getting console output: {str(e)}"
+
 
 @mcp.prompt()
 def maya_workflow_tips() -> str:

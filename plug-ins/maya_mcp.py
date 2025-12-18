@@ -27,6 +27,9 @@ class MayaMCPClient:
         self.running = False
         self.socket = None
         self.server_thread = None
+        self.console_output = []  # Store console output
+        self.max_console_lines = 1000  # Maximum lines to store
+        self._setup_output_capture()
         
     def start(self):
         """Start the client socket listener"""
@@ -219,6 +222,8 @@ class MayaMCPClient:
                 result = self._get_viewport_screenshot(params)
             elif cmd_type == "smart_select":
                 result = self._smart_select(params)
+            elif cmd_type == "get_console_output":
+                result = self._get_console_output(params)
             else:
                 return {
                     "status": "error",
@@ -248,25 +253,66 @@ class MayaMCPClient:
             }
             
     def _get_scene_info(self):
-        """Get scene information"""
+        """Get scene information using OpenMaya API"""
         try:
-            # Get all DAG objects
-            all_objects = cmds.ls(dagObjects=True, long=True) or []
+            print("MayaMCP: Getting scene info using OpenMaya API")
             
-            # Filter transform nodes
-            transforms = cmds.ls(type='transform', long=True) or []
+            # Get all DAG objects using OpenMaya
+            all_objects = []
+            transforms = []
+            
+            # Iterate through all DAG nodes
+            dag_iterator = om.MItDag(om.MItDag.kDepthFirst, om.MFn.kInvalid)
+            while not dag_iterator.isDone():
+                dag_path = om.MDagPath()
+                dag_iterator.getPath(dag_path)
+                full_path = dag_path.fullPathName()
+                all_objects.append(full_path)
+                
+                # Check if it's a transform
+                if dag_path.apiType() == om.MFn.kTransform:
+                    transforms.append(full_path)
+                    
+                dag_iterator.next()
             
             # Get cameras
-            cameras = cmds.ls(type='camera', long=True) or []
+            cameras = []
+            cam_iterator = om.MItDag(om.MItDag.kDepthFirst, om.MFn.kCamera)
+            while not cam_iterator.isDone():
+                dag_path = om.MDagPath()
+                cam_iterator.getPath(dag_path)
+                cameras.append(dag_path.fullPathName())
+                cam_iterator.next()
             
             # Get lights
-            lights = cmds.ls(lights=True, long=True) or []
+            lights = []
+            light_iterator = om.MItDag(om.MItDag.kDepthFirst, om.MFn.kLight)
+            while not light_iterator.isDone():
+                dag_path = om.MDagPath()
+                light_iterator.getPath(dag_path)
+                lights.append(dag_path.fullPathName())
+                light_iterator.next()
             
-            # Get materials
-            materials = cmds.ls(materials=True) or []
+            # Get materials using dependency graph
+            materials = []
+            dg_iterator = om.MItDependencyNodes(om.MFn.kLambert)
+            while not dg_iterator.isDone():
+                obj = dg_iterator.thisNode()
+                fn_dep = om.MFnDependencyNode(obj)
+                materials.append(fn_dep.name())
+                dg_iterator.next()
             
             # Get current selection
-            selection = cmds.ls(selection=True, long=True) or []
+            selection = []
+            sel_list = om.MSelectionList()
+            om.MGlobal.getActiveSelectionList(sel_list)
+            for i in range(sel_list.length()):
+                dag_path = om.MDagPath()
+                try:
+                    sel_list.getDagPath(i, dag_path)
+                    selection.append(dag_path.fullPathName())
+                except:
+                    pass
             
             scene_info = {
                 "total_objects": len(all_objects),
@@ -706,48 +752,14 @@ class MayaMCPClient:
         return True
     
     def _get_viewport_screenshot(self, params):
-        """Capture viewport screenshot with enhanced error handling"""
+        """Capture viewport screenshot - DISABLED due to stability issues"""
         try:
-            filepath = params.get("filepath")
-            if not filepath:
-                # Use temporary file
-                temp_dir = tempfile.gettempdir()
-                filepath = os.path.join(temp_dir, f"maya_screenshot_{int(time.time())}.jpg")
-            
-            # Ensure directory exists
-            os.makedirs(os.path.dirname(filepath), exist_ok=True)
-            
-            # Use safer screenshot method
-            # Get current active 3D view panel
-            panel = cmds.getPanel(withFocus=True)
-            if not panel or cmds.getPanel(typeOf=panel) != 'modelPanel':
-                # If current panel is not a 3D view, try to find one
-                model_panels = cmds.getPanel(type='modelPanel')
-                if model_panels:
-                    panel = model_panels[0]
-                else:
-                    raise Exception("No 3D viewport found")
-            
-            # Use playblast to capture current frame
-            # Remove file extension as Maya will add it automatically
-            filepath_no_ext = os.path.splitext(filepath)[0]
-            
-            result_files = cmds.playblast(
-                frame=[cmds.currentTime(query=True)],
-                format='image',
-                filename=filepath_no_ext,
-                forceOverwrite=True,
-                sequenceTime=False,
-                clearCache=True,
-                viewer=False,
-                showOrnaments=False,
-                offScreen=True,
-                fp=4,
-                percent=100,
-                compression='jpg',
-                quality=70,
-                widthHeight=[800, 600]
-            )
+            # Playblast causes Maya to crash in some versions
+            # Return a message instead
+            return {
+                "message": "Screenshot functionality is currently disabled due to stability issues with playblast in this Maya version. Please use Maya's built-in screenshot tools: View > Capture Screen > View Capture.",
+                "error": "Feature disabled"
+            }
             
             # Maya may add frame numbers and extensions
             # Try to find the generated file
@@ -793,6 +805,82 @@ class MayaMCPClient:
             error_msg = f"Failed to capture screenshot: {str(e)}\n{traceback.format_exc()}"
             print(f"MayaMCP: {error_msg}")
             raise Exception(error_msg)
+
+    def _setup_output_capture(self):
+        """Setup output capture for script editor"""
+        try:
+            import sys
+            
+            # Create custom output stream
+            class OutputCapture:
+                def __init__(self, original_stream, output_list, max_lines):
+                    self.original_stream = original_stream
+                    self.output_list = output_list
+                    self.max_lines = max_lines
+                
+                def write(self, text):
+                    # Write to original stream
+                    if self.original_stream:
+                        try:
+                            self.original_stream.write(text)
+                        except:
+                            pass
+                    
+                    # Store in list
+                    if text and text.strip():
+                        import time
+                        timestamp = time.strftime('%H:%M:%S')
+                        self.output_list.append(f"[{timestamp}] {text.rstrip()}")
+                        
+                        # Limit size
+                        if len(self.output_list) > self.max_lines:
+                            self.output_list.pop(0)
+                
+                def flush(self):
+                    if self.original_stream:
+                        try:
+                            self.original_stream.flush()
+                        except:
+                            pass
+            
+            # Redirect stdout and stderr
+            sys.stdout = OutputCapture(sys.stdout, self.console_output, self.max_console_lines)
+            sys.stderr = OutputCapture(sys.stderr, self.console_output, self.max_console_lines)
+            
+            print("MayaMCP: Output capture initialized")
+        except Exception as e:
+            print(f"MayaMCP: Failed to setup output capture: {str(e)}")
+    
+    def _get_console_output(self, params):
+        """Get console/script editor output"""
+        try:
+            # Get parameters
+            lines = params.get("lines", 100)  # Number of lines to return
+            clear = params.get("clear", False)  # Whether to clear after reading
+            filter_text = params.get("filter")  # Optional text filter
+            
+            # Get output
+            output = self.console_output.copy()
+            
+            # Apply filter if specified
+            if filter_text:
+                output = [line for line in output if filter_text.lower() in line.lower()]
+            
+            # Get last N lines
+            if lines > 0:
+                output = output[-lines:]
+            
+            # Clear if requested
+            if clear:
+                self.console_output.clear()
+            
+            return {
+                "lines": output,
+                "total_lines": len(self.console_output),
+                "returned_lines": len(output)
+            }
+        except Exception as e:
+            raise Exception(f"Failed to get console output: {str(e)}")
 
 # Global client instance
 _maya_mcp_client = None

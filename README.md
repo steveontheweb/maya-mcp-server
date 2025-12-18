@@ -113,7 +113,12 @@ If you see scene info returned, it's working! ✅
 | `transform_object` | Transform objects (move/rotate/scale) |
 | `set_material` | Set materials and colors |
 | `execute_maya_code` | Execute Python code |
-| `get_viewport_screenshot` | Capture viewport screenshot |
+| `get_viewport_screenshot` | Capture viewport screenshot ⚠️ |
+| `smart_select` | Smart object selection with regex and filters |
+| `get_scene_summary` | Get comprehensive scene summary |
+| `get_console_output` | Get Maya console/script editor output 🆕 |
+
+> ⚠️ Note: `get_viewport_screenshot` may be unstable in some Maya versions due to playblast compatibility issues.
 
 ### 💬 Example Conversations
 
@@ -147,6 +152,7 @@ Claude:
 # Scene queries
 "Show all objects in the current scene"
 "Get detailed info for pCube1"
+"Get console output to see recent Maya logs"
 
 # Create objects
 "Create a sphere named mySphere"
@@ -157,8 +163,9 @@ Claude:
 "Set pSphere1 to blue"
 "Rotate pCylinder1 45 degrees on Y axis"
 
-# Visual feedback
-"Capture current viewport screenshot"
+# Smart selection
+"Select all objects with 'character' in their name"
+"Find all meshes with more than 5000 faces"
 ```
 
 ### Advanced Operations
@@ -166,6 +173,30 @@ Claude:
 ```
 # Procedural modeling
 "Execute code to create a 5x5 cube grid"
+
+# Vertex/Face editing
+"Create a plane and edit vertices to make a terrain"
+"Extrude faces to create details"
+
+# UV editing
+"Apply automatic UV projection to selected objects"
+"Create spherical UV mapping for the sphere"
+
+# Animation
+"Create keyframe animation for bouncing ball"
+"Set up 3-point lighting system"
+
+# Rigging
+"Create a spine bone chain with 5 joints"
+"Set up parent constraints"
+
+# Dynamics
+"Create particle system with gravity"
+"Apply bend deformer to plane"
+
+# Boolean operations
+"Subtract cube2 from cube1"
+"Union two overlapping spheres"
 
 # Batch operations
 "Set all spheres to random colors"
