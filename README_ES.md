@@ -113,7 +113,12 @@ Obtener información de la escena actual de Maya
 | `transform_object` | Transformar objeto (mover/rotar/escalar) |
 | `set_material` | Establecer material y color |
 | `execute_maya_code` | Ejecutar código Python |
-| `get_viewport_screenshot` | Capturar captura de pantalla del viewport |
+| `get_viewport_screenshot` | Capturar captura de pantalla del viewport ⚠️ |
+| `smart_select` | Selección inteligente de objetos con regex y filtros |
+| `get_scene_summary` | Obtener resumen completo de la escena |
+| `get_console_output` | Obtener salida de consola/editor de scripts de Maya 🆕 |
+
+> ⚠️ Nota: `get_viewport_screenshot` puede ser inestable en algunas versiones de Maya debido a problemas de compatibilidad con playblast.
 
 ### 💬 Ejemplos de Conversación
 
@@ -147,6 +152,7 @@ Claude:
 # Consultas de escena
 "Mostrar todos los objetos en la escena actual"
 "Obtener información detallada de pCube1"
+"Obtener salida de consola para ver registros recientes de Maya"
 
 # Crear objetos
 "Crear una esfera llamada mySphere"
@@ -157,8 +163,9 @@ Claude:
 "Establecer pSphere1 en azul"
 "Rotar pCylinder1 45 grados en el eje Y"
 
-# Retroalimentación visual
-"Capturar una captura de pantalla del viewport actual"
+# Selección inteligente
+"Seleccionar todos los objetos con 'character' en su nombre"
+"Encontrar todas las mallas con más de 5000 caras"
 ```
 
 ### Operaciones Avanzadas
@@ -166,6 +173,30 @@ Claude:
 ```
 # Modelado procedimental
 "Ejecutar código para crear una cuadrícula de cubos 5x5"
+
+# Edición de vértices/caras
+"Crear un plano y editar vértices para hacer un terreno"
+"Extruir caras para crear detalles"
+
+# Edición UV
+"Aplicar proyección UV automática a objetos seleccionados"
+"Crear mapeo UV esférico para la esfera"
+
+# Animación
+"Crear animación de fotogramas clave para pelota rebotando"
+"Configurar sistema de iluminación de 3 puntos"
+
+# Rigging
+"Crear cadena de huesos de columna vertebral con 5 articulaciones"
+"Configurar restricciones de padre"
+
+# Dinámica
+"Crear sistema de partículas con gravedad"
+"Aplicar deformador de doblado al plano"
+
+# Operaciones booleanas
+"Restar cube2 de cube1"
+"Unir dos esferas superpuestas"
 
 # Operaciones por lotes
 "Establecer colores aleatorios para todas las esferas"
@@ -256,7 +287,7 @@ Revisa los registros para depurar problemas de conexión o errores de ejecución
 
 ```bash
 # Configurar entorno
-set PYTHONPATH=d:/path/to/maya-mcp-server/src
+export PYTHONPATH=/path/to/maya-mcp-server/src
 
 # Ejecutar servidor
 python -m maya_mcp.server

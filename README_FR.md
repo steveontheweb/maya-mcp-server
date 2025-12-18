@@ -113,7 +113,12 @@ Si vous voyez les informations de la scène, la connexion est réussie ! ✅
 | `transform_object` | Transformer un objet (déplacer/pivoter/échelle) |
 | `set_material` | Définir le matériau et la couleur |
 | `execute_maya_code` | Exécuter du code Python |
-| `get_viewport_screenshot` | Capturer une capture d'écran de la fenêtre |
+| `get_viewport_screenshot` | Capturer une capture d'écran de la fenêtre ⚠️ |
+| `smart_select` | Sélection intelligente d'objets avec regex et filtres |
+| `get_scene_summary` | Obtenir un résumé complet de la scène |
+| `get_console_output` | Obtenir la sortie de la console/éditeur de scripts Maya 🆕 |
+
+> ⚠️ Note : `get_viewport_screenshot` peut être instable dans certaines versions de Maya en raison de problèmes de compatibilité avec playblast.
 
 ### 💬 Exemples de Conversation
 
@@ -147,6 +152,7 @@ Claude :
 # Requêtes de scène
 "Afficher tous les objets dans la scène actuelle"
 "Obtenir les informations détaillées de pCube1"
+"Obtenir la sortie de la console pour voir les journaux récents de Maya"
 
 # Créer des objets
 "Créer une sphère nommée mySphere"
@@ -157,8 +163,9 @@ Claude :
 "Définir pSphere1 en bleu"
 "Faire pivoter pCylinder1 de 45 degrés sur l'axe Y"
 
-# Retour visuel
-"Capturer une capture d'écran de la fenêtre actuelle"
+# Sélection intelligente
+"Sélectionner tous les objets avec 'character' dans leur nom"
+"Trouver tous les maillages avec plus de 5000 faces"
 ```
 
 ### Opérations Avancées
@@ -166,6 +173,30 @@ Claude :
 ```
 # Modélisation procédurale
 "Exécuter du code pour créer une grille de cubes 5x5"
+
+# Édition de sommets/faces
+"Créer un plan et éditer les sommets pour faire un terrain"
+"Extruder des faces pour créer des détails"
+
+# Édition UV
+"Appliquer une projection UV automatique aux objets sélectionnés"
+"Créer un mappage UV sphérique pour la sphère"
+
+# Animation
+"Créer une animation par images clés pour une balle rebondissante"
+"Configurer un système d'éclairage à 3 points"
+
+# Rigging
+"Créer une chaîne d'os de colonne vertébrale avec 5 articulations"
+"Configurer des contraintes de parent"
+
+# Dynamique
+"Créer un système de particules avec gravité"
+"Appliquer un déformateur de courbure au plan"
+
+# Opérations booléennes
+"Soustraire cube2 de cube1"
+"Unir deux sphères qui se chevauchent"
 
 # Opérations par lots
 "Définir des couleurs aléatoires pour toutes les sphères"
@@ -256,7 +287,7 @@ Consultez les journaux pour déboguer les problèmes de connexion ou les erreurs
 
 ```bash
 # Configurer l'environnement
-set PYTHONPATH=d:/path/to/maya-mcp-server/src
+export PYTHONPATH=/path/to/maya-mcp-server/src
 
 # Exécuter le serveur
 python -m maya_mcp.server

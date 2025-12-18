@@ -113,7 +113,12 @@ Wenn Sie die Szeneninformationen sehen, war die Verbindung erfolgreich! ✅
 | `transform_object` | Objekt transformieren (verschieben/drehen/skalieren) |
 | `set_material` | Material und Farbe festlegen |
 | `execute_maya_code` | Python-Code ausführen |
-| `get_viewport_screenshot` | Viewport-Screenshot erfassen |
+| `get_viewport_screenshot` | Viewport-Screenshot erfassen ⚠️ |
+| `smart_select` | Intelligente Objektauswahl mit Regex und Filtern |
+| `get_scene_summary` | Umfassende Szenenzusammenfassung abrufen |
+| `get_console_output` | Maya-Konsole/Script-Editor-Ausgabe abrufen 🆕 |
+
+> ⚠️ Hinweis: `get_viewport_screenshot` kann in einigen Maya-Versionen aufgrund von Playblast-Kompatibilitätsproblemen instabil sein.
 
 ### 💬 Gesprächsbeispiele
 
@@ -147,6 +152,7 @@ Claude:
 # Szenenabfragen
 "Alle Objekte in der aktuellen Szene anzeigen"
 "Detaillierte Informationen zu pCube1 abrufen"
+"Konsolenausgabe abrufen, um aktuelle Maya-Logs zu sehen"
 
 # Objekte erstellen
 "Eine Kugel namens mySphere erstellen"
@@ -157,8 +163,9 @@ Claude:
 "pSphere1 auf Blau setzen"
 "pCylinder1 um 45 Grad um die Y-Achse drehen"
 
-# Visuelles Feedback
-"Screenshot des aktuellen Viewports erfassen"
+# Intelligente Auswahl
+"Alle Objekte mit 'character' im Namen auswählen"
+"Alle Meshes mit mehr als 5000 Flächen finden"
 ```
 
 ### Erweiterte Operationen
@@ -166,6 +173,30 @@ Claude:
 ```
 # Prozedurale Modellierung
 "Code ausführen, um ein 5x5-Würfelgitter zu erstellen"
+
+# Vertex/Flächen-Bearbeitung
+"Eine Ebene erstellen und Vertices bearbeiten, um ein Gelände zu erstellen"
+"Flächen extrudieren, um Details zu erstellen"
+
+# UV-Bearbeitung
+"Automatische UV-Projektion auf ausgewählte Objekte anwenden"
+"Sphärisches UV-Mapping für die Kugel erstellen"
+
+# Animation
+"Keyframe-Animation für hüpfenden Ball erstellen"
+"3-Punkt-Beleuchtungssystem einrichten"
+
+# Rigging
+"Wirbelsäulen-Knochenkette mit 5 Gelenken erstellen"
+"Parent-Constraints einrichten"
+
+# Dynamik
+"Partikelsystem mit Schwerkraft erstellen"
+"Bend-Deformer auf Ebene anwenden"
+
+# Boolesche Operationen
+"cube2 von cube1 subtrahieren"
+"Zwei überlappende Kugeln vereinen"
 
 # Stapeloperationen
 "Zufällige Farben für alle Kugeln festlegen"
@@ -256,7 +287,7 @@ Server-Protokolle werden gespeichert in:
 
 ```bash
 # Umgebung einrichten
-set PYTHONPATH=d:/path/to/maya-mcp-server/src
+export PYTHONPATH=/path/to/maya-mcp-server/src
 
 # Server ausführen
 python -m maya_mcp.server
