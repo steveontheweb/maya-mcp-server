@@ -7,7 +7,7 @@
         "maya_mcp.server"
       ],
       "env": {
-        "PYTHONPATH": "d:/Dev/Gitea/ArtGroup/maya-mcp-server/src",
+        "PYTHONPATH": "D:/Program Files/maya-mcp-server/src",
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
       }

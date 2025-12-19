@@ -4,7 +4,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "d:/Dev/Gitea/ArtGroup/maya-mcp-server",
+        "D:/Program Files/maya-mcp-server",
         "maya-mcp"
       ],
       "env": {

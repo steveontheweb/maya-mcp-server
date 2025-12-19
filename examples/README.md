@@ -24,7 +24,7 @@
       "command": "npx",
       "args": [
         "--yes",
-        "--package=d:/Dev/Gitea/ArtGroup/maya-mcp-server",
+        "--package=D:/Program Files/maya-mcp-server",
         "maya-mcp"
       ],
       "env": {
@@ -52,7 +52,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "d:/Dev/Gitea/ArtGroup/maya-mcp-server",
+        "D:/Program Files/maya-mcp-server",
         "maya-mcp"
       ],
       "env": {
@@ -83,7 +83,7 @@
         "maya_mcp.server"
       ],
       "env": {
-        "PYTHONPATH": "d:/Dev/Gitea/ArtGroup/maya-mcp-server/src",
+        "PYTHONPATH": "D:/Program Files/maya-mcp-server/src",
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
       }
@@ -99,7 +99,7 @@
 2. **复制配置内容**：复制对应json文件的内容
 
 3. **修改路径**：将配置中的项目路径改为您的实际路径
-   - 找到类似 `d:/Dev/Gitea/ArtGroup/maya-mcp-server` 的路径
+   - 找到类似 `D:/Program Files/maya-mcp-server` 的路径
    - 替换为您的项目实际路径
    - 使用正斜杠 `/` 而不是反斜杠 `\`
 
