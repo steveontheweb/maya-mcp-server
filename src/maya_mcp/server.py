@@ -681,6 +681,7 @@ def get_scene_summary(ctx: Context) -> str:
     except Exception as e:
         logger.error(f"Error getting scene summary: {str(e)}")
         return f"Error getting scene summary: {str(e)}"
+
 @mcp.tool()
 def get_console_output(
     ctx: Context,

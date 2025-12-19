@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "--yes",
-        "--package=d:/Dev/Gitea/ArtGroup/maya-mcp-server",
+        "--package=D:/Program Files/maya-mcp-server",
         "maya-mcp"
       ],
       "env": {
