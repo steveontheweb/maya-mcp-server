@@ -1,6 +1,6 @@
 {
   "name": "maya-mcp-server",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Maya integration through the Model Context Protocol - Node.js wrapper for Python MCP server",
   "main": "bin/maya-mcp.js",
   "bin": {

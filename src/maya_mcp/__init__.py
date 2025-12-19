@@ -1,6 +1,6 @@
 """Maya integration through the Model Context Protocol."""
 
-__version__ = "1.3.4"
+__version__ = "1.3.5"
 
 # Don't import from server here to avoid circular import issues
 # Users can import directly: from maya_mcp.server import MayaConnection
