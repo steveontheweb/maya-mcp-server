@@ -70,7 +70,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ pip install "mcp[cli]>=1.3.0"
 | `transform_object` | 变换对象（移动/旋转/缩放） |
 | `set_material` | 设置材质和颜色 |
 | `execute_maya_code` | 执行Python代码 |
-| `get_viewport_screenshot` | 捕获视口截图 ⚠️ |
 | `smart_select` | 智能对象选择（支持正则和过滤） |
 | `get_scene_summary` | 获取全面的场景摘要 |
 | `get_console_output` | 获取Maya控制台/脚本编辑器输出 🆕 |
-
-> ⚠️ 注意：`get_viewport_screenshot` 在某些Maya版本中可能不稳定，因playblast兼容性问题。
 
 ### 💬 示例对话
 
@@ -157,15 +152,13 @@ Claude：
 ```
 
 ```
-用户：创建一个简单的桌椅场景并捕获截图
+用户：创建一个简单的桌椅场景
 
 Claude：
 1. 创建了桌面（缩放后的立方体）
 2. 创建了4个桌腿（圆柱体）
 3. 创建了椅子
 4. 设置了材质
-5. 捕获了视口截图
-✅ [显示截图]
 ```
 
 ## 使用示例

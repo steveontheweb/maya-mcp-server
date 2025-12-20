@@ -70,7 +70,6 @@ Mayaの**プラグインマネージャー**で `plug-ins/maya_mcp.py` を読み
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ Mayaの**プラグインマネージャー**で `plug-ins/maya_mcp.py` を読み
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ Claude Desktopを再起動し、次のように質問：
 | `transform_object` | オブジェクトを変換（移動/回転/スケール） |
 | `set_material` | マテリアルと色を設定 |
 | `execute_maya_code` | Pythonコードを実行 |
-| `get_viewport_screenshot` | ビューポートのスクリーンショットをキャプチャ ⚠️ |
 | `smart_select` | スマートオブジェクト選択（正規表現とフィルタ対応） |
 | `get_scene_summary` | 包括的なシーン概要を取得 |
 | `get_console_output` | Mayaコンソール/スクリプトエディタ出力を取得 🆕 |
-
-> ⚠️ 注意：`get_viewport_screenshot`は、playblastの互換性問題により一部のMayaバージョンで不安定な場合があります。
 
 ### 💬 対話例
 

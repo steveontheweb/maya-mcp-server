@@ -218,8 +218,6 @@ class MayaMCPClient:
                 result = self._set_material(params)
             elif cmd_type == "transform_object":
                 result = self._transform_object(params)
-            elif cmd_type == "get_viewport_screenshot":
-                result = self._get_viewport_screenshot(params)
             elif cmd_type == "smart_select":
                 result = self._smart_select(params)
             elif cmd_type == "get_console_output":
@@ -405,6 +403,9 @@ class MayaMCPClient:
             # Create execution environment with standard builtins
             import sys
             import math
+            import os
+            import tempfile
+            import time as time_module
             import maya.utils as utils
             
             exec_globals = {
@@ -412,6 +413,9 @@ class MayaMCPClient:
                 'om': om,
                 'mel': mel,
                 'math': math,
+                'os': os,
+                'tempfile': tempfile,
+                'time': time_module,
                 'utils': utils,
                 '__builtins__': __builtins__,
             }
@@ -751,61 +755,6 @@ class MayaMCPClient:
         
         return True
     
-    def _get_viewport_screenshot(self, params):
-        """Capture viewport screenshot - DISABLED due to stability issues"""
-        try:
-            # Playblast causes Maya to crash in some versions
-            # Return a message instead
-            return {
-                "message": "Screenshot functionality is currently disabled due to stability issues with playblast in this Maya version. Please use Maya's built-in screenshot tools: View > Capture Screen > View Capture.",
-                "error": "Feature disabled"
-            }
-            
-            # Maya may add frame numbers and extensions
-            # Try to find the generated file
-            actual_file = None
-            if isinstance(result_files, list) and result_files:
-                actual_file = result_files[0]
-            elif isinstance(result_files, str):
-                actual_file = result_files
-            
-            # Check if file exists
-            if actual_file and os.path.exists(actual_file):
-                # If filename differs, rename to requested filename
-                if actual_file != filepath:
-                    try:
-                        if os.path.exists(filepath):
-                            os.remove(filepath)
-                        os.rename(actual_file, filepath)
-                        actual_file = filepath
-                    except:
-                        pass
-                return {"filepath": actual_file, "message": "Screenshot saved"}
-            else:
-                # Check for files with frame numbers
-                import glob
-                pattern = filepath_no_ext + "*"
-                matching_files = glob.glob(pattern)
-                if matching_files:
-                    actual_file = matching_files[0]
-                    if actual_file != filepath:
-                        try:
-                            if os.path.exists(filepath):
-                                os.remove(filepath)
-                            os.rename(actual_file, filepath)
-                            actual_file = filepath
-                        except:
-                            pass
-                    return {"filepath": actual_file, "message": "Screenshot saved"}
-                else:
-                    raise Exception("Screenshot file was not created")
-                    
-        except Exception as e:
-            import traceback
-            error_msg = f"Failed to capture screenshot: {str(e)}\n{traceback.format_exc()}"
-            print(f"MayaMCP: {error_msg}")
-            raise Exception(error_msg)
-
     def _setup_output_capture(self):
         """Setup output capture for script editor"""
         try:

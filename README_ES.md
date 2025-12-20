@@ -70,7 +70,6 @@ Edita el archivo de configuración (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ Edita el archivo de configuración (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ Obtener información de la escena actual de Maya
 | `transform_object` | Transformar objeto (mover/rotar/escalar) |
 | `set_material` | Establecer material y color |
 | `execute_maya_code` | Ejecutar código Python |
-| `get_viewport_screenshot` | Capturar captura de pantalla del viewport ⚠️ |
 | `smart_select` | Selección inteligente de objetos con regex y filtros |
 | `get_scene_summary` | Obtener resumen completo de la escena |
 | `get_console_output` | Obtener salida de consola/editor de scripts de Maya 🆕 |
-
-> ⚠️ Nota: `get_viewport_screenshot` puede ser inestable en algunas versiones de Maya debido a problemas de compatibilidad con playblast.
 
 ### 💬 Ejemplos de Conversación
 

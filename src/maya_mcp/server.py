@@ -554,62 +554,6 @@ def transform_object(
         return f"Error transforming object: {str(e)}"
 
 @mcp.tool()
-def get_viewport_screenshot(ctx: Context, max_size: int = 800) -> Image:
-    """
-    Capture a screenshot of the current Maya 3D viewport.
-    
-    Parameters:
-    - max_size: Maximum size in pixels (default: 800)
-    
-    Returns screenshot as an image.
-    
-    Note: Screenshot operation has a 60 second timeout limit.
-    """
-    try:
-        maya = get_maya_connection()
-        
-        # Create temporary file path
-        temp_dir = tempfile.gettempdir()
-        temp_path = os.path.join(temp_dir, f"maya_screenshot_{os.getpid()}_{int(time.time())}.jpg")
-        
-        # Use shorter timeout to prevent long waits
-        result = maya.send_command("get_viewport_screenshot", {
-            "filepath": temp_path
-        }, timeout=60.0)
-        
-        if "error" in result:
-            raise Exception(result["error"])
-        
-        # Get actual file path (Maya may return a different path)
-        actual_path = result.get("filepath", temp_path)
-        
-        if not os.path.exists(actual_path):
-            raise Exception(f"Screenshot file was not created: {actual_path}")
-        
-        # Check file size
-        file_size = os.path.getsize(actual_path)
-        if file_size > 10 * 1024 * 1024:  # 10MB
-            logger.warning(f"Screenshot file is large: {file_size / (1024*1024):.1f}MB")
-        
-        # Read file
-        with open(actual_path, 'rb') as f:
-            image_bytes = f.read()
-        
-        logger.info(f"Screenshot successful, size: {len(image_bytes)} bytes")
-        
-        # Delete temporary file
-        try:
-            os.remove(actual_path)
-        except Exception as cleanup_error:
-            logger.warning(f"Failed to cleanup temporary file: {str(cleanup_error)}")
-        
-        return Image(data=image_bytes, format="jpeg")
-        
-    except Exception as e:
-        logger.error(f"Error capturing screenshot: {str(e)}")
-        raise Exception(f"Screenshot failed: {str(e)}")
-
-@mcp.tool()
 def smart_select(
     ctx: Context,
     query: str = "",
@@ -748,13 +692,13 @@ def maya_workflow_tips() -> str:
 
 4. **Advanced Operations**
    - Use `execute_maya_code` to execute complex Maya commands
-   - Use `get_viewport_screenshot` to visualize results
+   - Use `smart_select` to find objects efficiently
 
 ## Best Practices
 
 - Check scene state before executing complex operations
 - Execute complex tasks step by step
-- Use screenshots to verify results
+- Use Maya's built-in tools to verify results
 - Keep object naming clear and meaningful
 
 ## Safety Tips

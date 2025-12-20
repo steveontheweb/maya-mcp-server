@@ -16,7 +16,6 @@
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",

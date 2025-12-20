@@ -70,7 +70,6 @@ Edit config file (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ Edit config file (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ If you see scene info returned, it's working! ✅
 | `transform_object` | Transform objects (move/rotate/scale) |
 | `set_material` | Set materials and colors |
 | `execute_maya_code` | Execute Python code |
-| `get_viewport_screenshot` | Capture viewport screenshot ⚠️ |
 | `smart_select` | Smart object selection with regex and filters |
 | `get_scene_summary` | Get comprehensive scene summary |
 | `get_console_output` | Get Maya console/script editor output 🆕 |
-
-> ⚠️ Note: `get_viewport_screenshot` may be unstable in some Maya versions due to playblast compatibility issues.
 
 ### 💬 Example Conversations
 
@@ -157,15 +152,14 @@ Claude:
 ```
 
 ```
-User: Create a simple table and chair scene and capture a screenshot
+User: Create a simple table and chair scene
 
 Claude:
 1. Created table top (scaled cube)
 2. Created 4 table legs (cylinders)
 3. Created chair
 4. Set materials
-5. Captured viewport screenshot
-✅ [Shows screenshot]
+✅ Scene created successfully
 ```
 
 ## Usage Examples

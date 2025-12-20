@@ -70,7 +70,6 @@ Bearbeiten Sie die Konfigurationsdatei (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ Bearbeiten Sie die Konfigurationsdatei (**Settings > Developer > Edit Config**):
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ Wenn Sie die Szeneninformationen sehen, war die Verbindung erfolgreich! ✅
 | `transform_object` | Objekt transformieren (verschieben/drehen/skalieren) |
 | `set_material` | Material und Farbe festlegen |
 | `execute_maya_code` | Python-Code ausführen |
-| `get_viewport_screenshot` | Viewport-Screenshot erfassen ⚠️ |
 | `smart_select` | Intelligente Objektauswahl mit Regex und Filtern |
 | `get_scene_summary` | Umfassende Szenenzusammenfassung abrufen |
 | `get_console_output` | Maya-Konsole/Script-Editor-Ausgabe abrufen 🆕 |
-
-> ⚠️ Hinweis: `get_viewport_screenshot` kann in einigen Maya-Versionen aufgrund von Playblast-Kompatibilitätsproblemen instabil sein.
 
 ### 💬 Gesprächsbeispiele
 
@@ -157,15 +152,14 @@ Claude:
 ```
 
 ```
-Benutzer: Erstelle eine einfache Tisch- und Stuhlszene und mache einen Screenshot
+Benutzer: Erstelle eine einfache Tisch- und Stuhlszene
 
 Claude:
 1. Tischplatte erstellt (skalierter Würfel)
 2. 4 Tischbeine erstellt (Zylinder)
 3. Stuhl erstellt
 4. Materialien festgelegt
-5. Viewport-Screenshot erfasst
-✅ [Screenshot anzeigen]
+✅ Szene erfolgreich erstellt
 ```
 
 ## Verwendungsbeispiele

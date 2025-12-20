@@ -37,7 +37,6 @@
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -73,12 +72,10 @@
         "MAYA_PORT": "9877"
       },
       "alwaysAllow": [
-          "*",
           "get_scene_info",
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -119,7 +116,6 @@
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -207,7 +203,6 @@ python basic_usage.py
 2. 创建四个立方体作为墙壁
 3. 创建一个立方体作为桌子
 4. 添加适当的颜色
-5. 捕获截图
 ```
 
 ### 2. 几何体阵列

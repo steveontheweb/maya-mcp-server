@@ -70,7 +70,6 @@ Chargez `plug-ins/maya_mcp.py` dans le **Gestionnaire de Plugins** de Maya :
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ Chargez `plug-ins/maya_mcp.py` dans le **Gestionnaire de Plugins** de Maya :
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ Si vous voyez les informations de la scène, la connexion est réussie ! ✅
 | `transform_object` | Transformer un objet (déplacer/pivoter/échelle) |
 | `set_material` | Définir le matériau et la couleur |
 | `execute_maya_code` | Exécuter du code Python |
-| `get_viewport_screenshot` | Capturer une capture d'écran de la fenêtre ⚠️ |
 | `smart_select` | Sélection intelligente d'objets avec regex et filtres |
 | `get_scene_summary` | Obtenir un résumé complet de la scène |
 | `get_console_output` | Obtenir la sortie de la console/éditeur de scripts Maya 🆕 |
-
-> ⚠️ Note : `get_viewport_screenshot` peut être instable dans certaines versions de Maya en raison de problèmes de compatibilité avec playblast.
 
 ### 💬 Exemples de Conversation
 
@@ -157,15 +152,14 @@ Claude :
 ```
 
 ```
-Utilisateur : Crée une scène simple de table et chaise et prends une capture d'écran
+Utilisateur : Crée une scène simple de table et chaise
 
 Claude :
 1. J'ai créé le plateau de table (cube mis à l'échelle)
 2. J'ai créé 4 pieds de table (cylindres)
 3. J'ai créé la chaise
 4. J'ai défini les matériaux
-5. J'ai capturé la capture d'écran de la fenêtre
-✅ [Affichage de la capture d'écran]
+✅ Scène créée avec succès
 ```
 
 ## Exemples d'Utilisation

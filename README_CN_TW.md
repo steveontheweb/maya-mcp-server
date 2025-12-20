@@ -70,7 +70,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ pip install "mcp[cli]>=1.3.0"
 | `transform_object` | 變換物件（移動/旋轉/縮放） |
 | `set_material` | 設定材質和顏色 |
 | `execute_maya_code` | 執行Python程式碼 |
-| `get_viewport_screenshot` | 擷取視埠截圖 ⚠️ |
 | `smart_select` | 智慧物件選擇（支援正則與過濾） |
 | `get_scene_summary` | 取得全面的場景摘要 |
 | `get_console_output` | 取得Maya控制台/指令碼編輯器輸出 🆕 |
-
-> ⚠️ 注意：`get_viewport_screenshot` 在某些Maya版本中可能不穩定，因playblast相容性問題。
 
 ### 💬 範例對話
 

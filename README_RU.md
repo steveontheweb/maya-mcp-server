@@ -70,7 +70,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -100,7 +99,6 @@ pip install "mcp[cli]>=1.3.0"
           "create_primitive",
           "delete_object",
           "set_material",
-          "get_viewport_screenshot",
           "transform_object",
           "smart_select",
           "get_scene_summary",
@@ -137,12 +135,9 @@ pip install "mcp[cli]>=1.3.0"
 | `transform_object` | Трансформировать объект (переместить/повернуть/масштабировать) |
 | `set_material` | Установить материал и цвет |
 | `execute_maya_code` | Выполнить Python-код |
-| `get_viewport_screenshot` | Захватить скриншот области просмотра ⚠️ |
 | `smart_select` | Умный выбор объектов с regex и фильтрами |
 | `get_scene_summary` | Получить полную сводку сцены |
 | `get_console_output` | Получить вывод консоли/редактора скриптов Maya 🆕 |
-
-> ⚠️ Примечание: `get_viewport_screenshot` может быть нестабильным в некоторых версиях Maya из-за проблем совместимости с playblast.
 
 ### 💬 Примеры Диалогов
 
