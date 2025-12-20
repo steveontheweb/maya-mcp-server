@@ -30,7 +30,20 @@
       "env": {
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      }
+      },
+      "alwaysAllow": [
+          "*",
+          "get_scene_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "get_viewport_screenshot",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
     }
   }
 }
@@ -58,7 +71,20 @@
       "env": {
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      }
+      },
+      "alwaysAllow": [
+          "*",
+          "get_scene_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "get_viewport_screenshot",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
     }
   }
 }
@@ -86,7 +112,20 @@
         "PYTHONPATH": "D:/Program Files/maya-mcp-server/src",
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      }
+      },
+      "alwaysAllow": [
+          "*",
+          "get_scene_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "get_viewport_screenshot",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
     }
   }
 }

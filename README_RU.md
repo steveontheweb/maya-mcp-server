@@ -64,7 +64,19 @@ pip install "mcp[cli]>=1.3.0"
       "env": {
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      }
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "get_viewport_screenshot",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
     }
   }
 }
@@ -82,7 +94,19 @@ pip install "mcp[cli]>=1.3.0"
         "PYTHONPATH": "путь_к_проекту/src",
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      }
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "get_viewport_screenshot",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
     }
   }
 }
