@@ -4,6 +4,7 @@
       "command": "npx",
       "args": [
         "--yes",
+        "--no-cache",
         "maya-mcp-server"
       ],
       "env": {

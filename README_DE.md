@@ -51,6 +51,7 @@ Bearbeiten Sie die Konfigurationsdatei (**Settings > Developer > Edit Config**):
 
 #### Methode A: Mit npx (Empfohlen)
 
+**Standard-Konfiguration:**
 ```json
 {
   "mcpServers": {
@@ -58,8 +59,7 @@ Bearbeiten Sie die Konfigurationsdatei (**Settings > Developer > Edit Config**):
       "command": "npx",
       "args": [
         "--yes",
-        "--package=Ihr_Projektpfad",
-        "maya-mcp"
+        "maya-mcp-server"
       ],
       "env": {
         "MAYA_HOST": "localhost",
@@ -67,6 +67,39 @@ Bearbeiten Sie die Konfigurationsdatei (**Settings > Developer > Edit Config**):
       },
       "alwaysAllow": [
           "get_scene_info",
+          "get_object_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
+    }
+  }
+}
+```
+
+**Erzwungene Update-Konfiguration (immer neuestes Paket laden):**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--no-cache",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "get_object_info",
           "create_primitive",
           "delete_object",
           "set_material",

@@ -5,7 +5,7 @@
  * This script launches the Python MCP server
  */
 
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
@@ -14,16 +14,12 @@ const projectRoot = path.resolve(__dirname, '..');
 
 // Check if Python is available
 function checkPython() {
-    const pythonCommands = ['python3', 'python'];
+    const pythonCommands = process.platform === 'win32' ? ['python', 'python3'] : ['python3', 'python'];
     
     for (const cmd of pythonCommands) {
         try {
-            const result = spawn(cmd, ['--version'], { stdio: 'pipe' });
-            result.on('close', (code) => {
-                if (code === 0) {
-                    return cmd;
-                }
-            });
+            execSync(`${cmd} --version`, { stdio: 'pipe' });
+            return cmd;
         } catch (e) {
             continue;
         }
@@ -53,12 +49,18 @@ function main() {
         process.exit(1);
     }
     
-    // Determine Python command
-    const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+    // Determine Python command with proper detection
+    let pythonCmd;
+    try {
+        pythonCmd = checkPython();
+    } catch (e) {
+        pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+    }
     
     console.log(`Project root: ${projectRoot}`);
     console.log(`PYTHONPATH: ${env.PYTHONPATH}`);
     console.log(`Maya connection: ${env.MAYA_HOST}:${env.MAYA_PORT}`);
+    console.log(`Using Python: ${pythonCmd}`);
     console.log('');
     
     // Spawn Python process
@@ -71,6 +73,7 @@ function main() {
     // Handle process events
     pythonProcess.on('error', (error) => {
         console.error('Failed to start Maya MCP Server:', error.message);
+        console.error('Make sure Python is installed and maya_mcp package is available');
         process.exit(1);
     });
     

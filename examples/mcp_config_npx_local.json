@@ -1,9 +1,10 @@
 {
   "mcpServers": {
-    "maya-mcp": {
+    "maya-mcp-local": {
       "command": "npx",
       "args": [
         "--yes",
+        "--package=file:./path/to/maya-mcp-server",
         "maya-mcp-server"
       ],
       "env": {

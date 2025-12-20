@@ -6,17 +6,18 @@
 
 ### MCP配置文件
 
-以下是三种不同的MCP服务器配置方式，选择最适合您的：
+以下是不同的MCP服务器配置方式，选择最适合您的：
 
-#### 1. mcp_config_npx.json - 使用npx（Node.js用户推荐）
+#### 1. mcp_config_npx.json - 使用npx（推荐）
 适合已安装Node.js的用户，通过npx启动服务器。
 
 **特点：**
 - ✅ 统一Node.js生态
 - ✅ 自动环境管理
+- ✅ 无需手动设置路径
 - ✅ 需要Node.js
 
-**配置内容：**
+**标准配置：**
 ```json
 {
   "mcpServers": {
@@ -24,31 +25,69 @@
       "command": "npx",
       "args": [
         "--yes",
-        "--package=D:/Program Files/maya-mcp-server",
-        "maya-mcp"
+        "maya-mcp-server"
       ],
       "env": {
         "MAYA_HOST": "localhost",
         "MAYA_PORT": "9877"
-      },
-      "alwaysAllow": [
-          "*",
-          "get_scene_info",
-          "create_primitive",
-          "delete_object",
-          "set_material",
-          "transform_object",
-          "smart_select",
-          "get_scene_summary",
-          "get_console_output",
-          "execute_maya_code"
-      ]
+      }
     }
   }
 }
 ```
 
-#### 2. mcp_config_uvx.json - 使用uvx（Python用户推荐）
+#### 2. mcp_config_npx_no_cache.json - 强制更新版本
+每次启动时强制拉取最新的npm包，确保使用最新版本。
+
+**特点：**
+- ✅ 始终使用最新版本
+- ✅ 适合开发和测试
+- ⚠️ 启动稍慢（需要检查更新）
+
+**强制更新配置：**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--no-cache",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      }
+    }
+  }
+}
+```
+
+#### 3. mcp_config_npx_local.json - 本地开发版本
+适合本地开发或测试未发布的版本。
+
+**本地开发配置：**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package=file:./path/to/maya-mcp-server",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      }
+    }
+  }
+}
+```
+
+#### 4. mcp_config_uvx.json - 使用uvx（Python用户推荐）
 适合Python开发者，使用uv工具链。
 
 **特点：**
@@ -87,7 +126,7 @@
 }
 ```
 
-#### 3. mcp_config_python.json - 直接Python（开发调试）
+#### 5. mcp_config_python.json - 直接Python（开发调试）
 直接运行Python模块，适合开发和调试。
 
 **特点：**
@@ -155,15 +194,19 @@
 
 | 配置文件 | 工具 | 适合人群 | 优点 | 缺点 |
 |---------|------|---------|------|------|
-| [mcp_config_npx.json](mcp_config_npx.json) | npx | Node.js用户 | 统一生态、自动管理 | 需要Node.js |
+| [mcp_config_npx.json](mcp_config_npx.json) | npx | 一般用户 | 简单、快速 | 可能不是最新版 |
+| [mcp_config_npx_no_cache.json](mcp_config_npx_no_cache.json) | npx --no-cache | 开发测试 | 始终最新版 | 启动稍慢 |
+| [mcp_config_npx_local.json](mcp_config_npx_local.json) | npx local | 本地开发 | 测试本地版本 | 需要本地路径 |
 | [mcp_config_uvx.json](mcp_config_uvx.json) | uvx | Python用户 | 纯Python、环境隔离 | 需要uv |
 | [mcp_config_python.json](mcp_config_python.json) | python | 开发调试 | 直接、灵活 | 手动配置多 |
 
 ### 推荐配置
 
-- 🟢 **有Node.js环境** → 使用 [mcp_config_npx.json](mcp_config_npx.json)
-- 🟢 **纯Python开发** → 使用 [mcp_config_uvx.json](mcp_config_uvx.json)
-- 🟡 **开发调试** → 使用 [mcp_config_python.json](mcp_config_python.json)
+- 🟢 **一般使用** → 使用 [mcp_config_npx.json](mcp_config_npx.json)
+- 🟢 **开发测试** → 使用 [mcp_config_npx_no_cache.json](mcp_config_npx_no_cache.json)
+- 🟡 **本地开发** → 使用 [mcp_config_npx_local.json](mcp_config_npx_local.json)
+- 🟡 **纯Python环境** → 使用 [mcp_config_uvx.json](mcp_config_uvx.json)
+- 🟡 **调试模式** → 使用 [mcp_config_python.json](mcp_config_python.json)
 
 ## 代码示例
 

@@ -51,6 +51,7 @@ pip install "mcp[cli]>=1.3.0"
 
 #### 方式A：使用npx（推薦）
 
+**標準配置：**
 ```json
 {
   "mcpServers": {
@@ -58,8 +59,7 @@ pip install "mcp[cli]>=1.3.0"
       "command": "npx",
       "args": [
         "--yes",
-        "--package=你的專案路徑",
-        "maya-mcp"
+        "maya-mcp-server"
       ],
       "env": {
         "MAYA_HOST": "localhost",
@@ -67,6 +67,39 @@ pip install "mcp[cli]>=1.3.0"
       },
       "alwaysAllow": [
           "get_scene_info",
+          "get_object_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
+    }
+  }
+}
+```
+
+**強制更新配置（每次啟動時拉取最新套件）：**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--no-cache",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "get_object_info",
           "create_primitive",
           "delete_object",
           "set_material",

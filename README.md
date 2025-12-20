@@ -51,6 +51,7 @@ Edit config file (**Settings > Developer > Edit Config**):
 
 #### Option A: Using npx (Recommended)
 
+**Standard Configuration:**
 ```json
 {
   "mcpServers": {
@@ -58,8 +59,7 @@ Edit config file (**Settings > Developer > Edit Config**):
       "command": "npx",
       "args": [
         "--yes",
-        "--package=YOUR_PROJECT_PATH",
-        "maya-mcp"
+        "maya-mcp-server"
       ],
       "env": {
         "MAYA_HOST": "localhost",
@@ -67,6 +67,39 @@ Edit config file (**Settings > Developer > Edit Config**):
       },
       "alwaysAllow": [
           "get_scene_info",
+          "get_object_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
+    }
+  }
+}
+```
+
+**Force Update Configuration (always pull latest package):**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--no-cache",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "get_object_info",
           "create_primitive",
           "delete_object",
           "set_material",
@@ -267,6 +300,16 @@ start_maya_mcp_server(host='localhost', port=9878)
 1. Install dependencies: `pip install "mcp[cli]>=1.3.0"`
 2. Check PYTHONPATH setting (if using Python direct mode)
 3. Try using npx method instead
+
+### NPX Configuration Issues
+
+**Issue:** npx fails to start the server or can't find files
+
+**Solutions:**
+1. Use absolute paths in configuration (not relative paths)
+2. Use forward slashes `/` in Windows paths
+3. Verify project structure is intact
+4. See detailed guide: [NPX_TROUBLESHOOTING.md](NPX_TROUBLESHOOTING.md)
 
 ### Plugin Load Failed
 

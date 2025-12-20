@@ -51,6 +51,7 @@ Chargez `plug-ins/maya_mcp.py` dans le **Gestionnaire de Plugins** de Maya :
 
 #### Méthode A : Utilisation de npx (Recommandé)
 
+**Configuration standard :**
 ```json
 {
   "mcpServers": {
@@ -58,8 +59,7 @@ Chargez `plug-ins/maya_mcp.py` dans le **Gestionnaire de Plugins** de Maya :
       "command": "npx",
       "args": [
         "--yes",
-        "--package=chemin_du_projet",
-        "maya-mcp"
+        "maya-mcp-server"
       ],
       "env": {
         "MAYA_HOST": "localhost",
@@ -67,6 +67,39 @@ Chargez `plug-ins/maya_mcp.py` dans le **Gestionnaire de Plugins** de Maya :
       },
       "alwaysAllow": [
           "get_scene_info",
+          "get_object_info",
+          "create_primitive",
+          "delete_object",
+          "set_material",
+          "transform_object",
+          "smart_select",
+          "get_scene_summary",
+          "get_console_output",
+          "execute_maya_code"
+      ]
+    }
+  }
+}
+```
+
+**Configuration de mise à jour forcée (toujours télécharger le dernier paquet) :**
+```json
+{
+  "mcpServers": {
+    "maya-mcp": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--no-cache",
+        "maya-mcp-server"
+      ],
+      "env": {
+        "MAYA_HOST": "localhost",
+        "MAYA_PORT": "9877"
+      },
+      "alwaysAllow": [
+          "get_scene_info",
+          "get_object_info",
           "create_primitive",
           "delete_object",
           "set_material",
