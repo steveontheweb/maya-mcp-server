@@ -13,6 +13,113 @@ import traceback
 import time
 import tempfile
 import os
+import ast
+import builtins
+
+
+# ==================== Code Execution Safety ====================
+
+# Safe builtins whitelist — everything needed for Maya scripting,
+# nothing that provides OS/filesystem/import access
+_SAFE_BUILTINS = {
+    k: getattr(builtins, k)
+    for k in [
+        'print', 'range', 'len', 'list', 'dict', 'tuple', 'set', 'frozenset',
+        'str', 'int', 'float', 'bool', 'bytes', 'bytearray', 'type',
+        'isinstance', 'issubclass', 'hasattr', 'getattr', 'setattr', 'delattr',
+        'enumerate', 'zip', 'map', 'filter', 'sorted', 'reversed',
+        'min', 'max', 'sum', 'abs', 'round', 'divmod', 'pow',
+        'repr', 'hash', 'id', 'iter', 'next', 'callable', 'format',
+        'any', 'all', 'chr', 'ord', 'hex', 'oct', 'bin',
+        'True', 'False', 'None',
+        'Exception', 'ValueError', 'TypeError', 'RuntimeError',
+        'KeyError', 'IndexError', 'AttributeError', 'StopIteration',
+        'ZeroDivisionError', 'OverflowError', 'NameError',
+    ]
+    if hasattr(builtins, k)
+}
+
+# Callable names that must never appear in user code
+_BLOCKED_CALLS = {
+    'eval', 'exec', 'compile', 'open', '__import__',
+    'globals', 'locals', 'vars', 'breakpoint', 'input',
+    'memoryview', 'execfile',
+}
+
+
+def _validate_code_ast(code):
+    """Parse code into an AST and reject dangerous constructs.
+
+    Blocks: import statements, calls to dangerous builtins,
+    and dunder attribute access (sandbox escape vectors).
+    """
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        raise Exception(f"Syntax error in code: {e}")
+
+    for node in ast.walk(tree):
+        # Block all import statements
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            names = ', '.join(
+                a.name for a in node.names
+            ) if isinstance(node, ast.Import) else node.module or ''
+            raise Exception(
+                f"Import of '{names}' is not allowed. "
+                "Use the pre-injected cmds, om, mel, math, os_path, "
+                "write_file, and read_file instead."
+            )
+
+        # Block calls to dangerous builtins by name
+        if isinstance(node, ast.Call):
+            func = node.func
+            name = None
+            if isinstance(func, ast.Name):
+                name = func.id
+            elif isinstance(func, ast.Attribute):
+                name = func.attr
+            if name in _BLOCKED_CALLS:
+                raise Exception(f"Call to '{name}' is not allowed.")
+
+        # Block dunder attribute access (sandbox escape vectors)
+        if isinstance(node, ast.Attribute):
+            if node.attr.startswith('__') and node.attr.endswith('__'):
+                raise Exception(
+                    f"Access to dunder attribute '{node.attr}' is not allowed."
+                )
+
+
+def _make_safe_file_helpers():
+    """Create read_file/write_file helpers scoped to the Maya project directory."""
+
+    def _get_project_dir():
+        return os.path.realpath(cmds.workspace(q=True, rootDirectory=True))
+
+    def _resolve_and_check(path):
+        project = _get_project_dir()
+        resolved = os.path.realpath(os.path.abspath(path))
+        if not resolved.startswith(project + os.sep) and resolved != project:
+            raise Exception(
+                f"Path '{path}' is outside the Maya project directory ({project}). "
+                "File operations are restricted to the project directory."
+            )
+        return resolved
+
+    def safe_write_file(path, content):
+        """Write a file. Path must be inside the Maya project directory."""
+        resolved = _resolve_and_check(path)
+        os.makedirs(os.path.dirname(resolved), exist_ok=True)
+        with open(resolved, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return f"Written to {resolved}"
+
+    def safe_read_file(path):
+        """Read a file. Path must be inside the Maya project directory."""
+        resolved = _resolve_and_check(path)
+        with open(resolved, 'r', encoding='utf-8') as f:
+            return f.read()
+
+    return safe_write_file, safe_read_file
 
 # Plugin Configuration
 DEFAULT_HOST = 'localhost'
@@ -389,35 +496,27 @@ class MayaMCPClient:
             if len(code) > max_code_length:
                 raise Exception(f"Code too long. Maximum {max_code_length} characters allowed.")
             
-            # Check for dangerous operations (basic safety check)
-            dangerous_patterns = [
-                'import subprocess', 'import os.system',
-                'eval(', 'compile(',
-                'execfile('
-            ]
-            code_lower = code.lower()
-            for pattern in dangerous_patterns:
-                if pattern in code_lower:
-                    print(f"MayaMCP: Warning - potentially dangerous operation detected: {pattern}")
-            
-            # Create execution environment with standard builtins
-            import sys
+            # AST validation — blocks imports, dangerous calls, dunder access
+            _validate_code_ast(code)
+
+            # Create restricted execution environment
             import math
-            import os
-            import tempfile
             import time as time_module
             import maya.utils as utils
-            
+
+            safe_write_file, safe_read_file = _make_safe_file_helpers()
+
             exec_globals = {
                 'cmds': cmds,
                 'om': om,
                 'mel': mel,
                 'math': math,
-                'os': os,
-                'tempfile': tempfile,
                 'time': time_module,
                 'utils': utils,
-                '__builtins__': __builtins__,
+                'os_path': os.path,         # path manipulation only, not full os
+                'write_file': safe_write_file,  # scoped to project dir
+                'read_file': safe_read_file,    # scoped to project dir
+                '__builtins__': _SAFE_BUILTINS,
             }
             exec_locals = {}
             
